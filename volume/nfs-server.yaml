@@ -8,8 +8,7 @@ spec :
   replicas : 1
   selector :
     matchLabels :
-      labels :
-        app : nfs-server
+      app : nfs-server
   template :
     metadata :
       labels :
@@ -28,7 +27,7 @@ spec :
         - name : rpcbind
           containerPort : 111
         securityContext : 
-          priviledged : true
+          privileged : true
         volumeMounts :
         - mountPath : /exports
           name : hostpath-vol
