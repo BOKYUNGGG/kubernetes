@@ -14,14 +14,14 @@ spec :
     spec : 
       affinity :
         podAntiAffinity :
-          requiredDuringSchedulingIgnoredDuringExecution
+          requiredDuringSchedulingIgnoredDuringExecution :
           - labelSelector :
               matchExpressions :
               - key : app
                 operator : in
                 values :
                 - store
-            topologyKey : "Kubernetes.io/hostname"
+            topologyKey : "kubernetes.io/hostname"
       containers : 
       - name : nfs-hostpath-pod
         image : nginx:alpine
