@@ -28,7 +28,7 @@ spec :
         - name : rpcbind
           containerPort : 111
         securityContext : 
-          priviledge : true
+          priviledged : true
         volumeMounts :
         - mountPath : /exports
           name : hostpath-vol
