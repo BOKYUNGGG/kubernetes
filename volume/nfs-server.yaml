@@ -1,0 +1,39 @@
+apiVersion : apps/v1
+kind : Deployment
+metadata : 
+  name : nfs-server-deployment
+  labels :
+    app : nfs-server
+spec :
+  replicas : 1
+  selector :
+    matchLabels :
+      labels :
+        app : nfs-server
+  template :
+    metadata :
+      labels :
+        app : nfs-server
+    spec :
+      nodeSelector :
+        mod : server
+      containers :
+      - name : nfs-server
+        image : arisu1000/nfs-server:latest
+        ports :
+        - name : nfs
+          containerPort : 2049
+        - name : mount
+          containerPort : 20048
+        - name : rpcbind
+          containerPort : 111
+        securityContext : 
+          priviledge : true
+        volumeMounts :
+        - mountPath : /exports
+          name : hostpath-vol
+      volumes :
+      - name : hostpath-vol
+        hostPath :
+          path : /tmp
+          type : Directory
