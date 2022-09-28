@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: kubernetes-emptydir-rs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      name: kubernetes-emptydir-pod
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - name: webserver
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: emptydir-vol
+          mountPath: /usr/share/nginx/html
+          readOnly: true
+      - name: contents-creator
+        image: ghcr.io/c1t1d0s7/fortune
+        volumeMounts:
+        - name: emptydir-vol
+          mountPath: /var/htdocs
+      volumes:
+      - name: emptydir-vol
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: webserver
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
